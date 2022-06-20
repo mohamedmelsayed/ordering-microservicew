@@ -1,5 +1,8 @@
 package com.profdev.ordering.controllers;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -15,22 +18,39 @@ import com.profdev.ordering.models.Status;
 public class OptionsController {
 	@GetMapping("/pickup")
 	public DeliveryType[] getDeliveryTypes() {
+		
 		return DeliveryType.values();
 	}
 
 	@GetMapping("/coffee")
-	public CoffeType[] getCoffeeTypes() {
-		return CoffeType.values();
+	public Map<CoffeType,Double> getCoffeeTypes() {
+		Map<CoffeType,Double> coffee=new HashMap<CoffeType, Double>();
+		coffee.put(CoffeType.Cappuccino, (double) 2);
+		coffee.put(CoffeType.Espresso, (double) 1);
+		coffee.put(CoffeType.Latte, (double) 2.5);
+		coffee.put(CoffeType.LongBlack, (double) 1.5);
+
+		return coffee;
 	}
 
 	@GetMapping("/size")
-	public Size[] getSize() {
-		return Size.values();
+	public Map<Size,Double> getSize() {
+		Map<Size,Double> sized=new HashMap<Size, Double>();
+		sized.put(Size.Large, (double) 2);
+		sized.put(Size.Small, (double) 1);
+		sized.put(Size.Medium, (double) 1.5);
+		return sized;
 	}
 
 	@GetMapping("/milk")
-	public MilkType[] getMilkType() {
-		return MilkType.values();
+	public Map<MilkType,Double> getMilkType() {
+		Map<MilkType,Double> milkTypes=new HashMap<MilkType, Double>();
+		milkTypes.put(MilkType.AlmondMilk, (double) .52);
+		milkTypes.put(MilkType.CowMilk, (double) .75);
+		milkTypes.put(MilkType.SoyMilk, (double) .99);
+		return milkTypes;
+		
+		
 	}
 
 	@GetMapping("/status")

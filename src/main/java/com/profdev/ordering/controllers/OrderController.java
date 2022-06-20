@@ -1,8 +1,11 @@
 package com.profdev.ordering.controllers;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -10,6 +13,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
 
@@ -28,7 +32,7 @@ import com.profdev.ordering.repositories.OrderingRepository;
 public class OrderController {
 	@Autowired
 	private OrderingRepository orderingRepo;
-
+//	@CrossOrigin(origins = "http://localhost:1222")
 	@GetMapping(value = { "", "/" })
 	public List<Orders> getAll() {
 		return (List<Orders>) orderingRepo.findAll();
@@ -58,9 +62,10 @@ public class OrderController {
 		}
 		return saved;
 	}
-
-	@PutMapping("/{orderId}")
+	@CrossOrigin(origins = "http://localhost:1222")
+	@RequestMapping(value="{orderId}",method = RequestMethod.PUT, consumes = MediaType.APPLICATION_JSON_VALUE)
 	public Orders update(@RequestBody OrderRequest orderRequest, @PathVariable long orderId) {
+		System.out.println(orderId);
 		Orders order = orderingRepo.findById(orderId).get();
 		if (order != null) {
 			order.setStatus(Status.valueOf(orderRequest.getStatus()));

@@ -2,7 +2,7 @@ package com.profdev.ordering.models;
 
 public class OrderRequest {
 
-	private long id;
+	private long id=0;
 	
 	private String status;
 
