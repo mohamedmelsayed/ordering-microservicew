@@ -16,10 +16,12 @@ import com.profdev.ordering.models.Status;
 @RestController
 @RequestMapping("/api/v1/options")
 public class OptionsController {
-	@GetMapping("/pickup")
-	public DeliveryType[] getDeliveryTypes() {
-		
-		return DeliveryType.values();
+	@GetMapping("/pickUp")
+	public Map<DeliveryType,Double> getDeliveryTypes() {
+		Map<DeliveryType,Double> delivery=new HashMap<DeliveryType, Double>();
+		delivery.put(DeliveryType.OnSite, (double)0);
+		delivery.put(DeliveryType.TakeAway, (double) 1.5);
+		return delivery;
 	}
 
 	@GetMapping("/coffee")

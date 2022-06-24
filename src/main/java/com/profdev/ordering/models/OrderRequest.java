@@ -14,6 +14,7 @@ public class OrderRequest {
 	private double price ;
 
 	private String coffeeType;
+	private String delivery;
 
 	public long getId() {
 		return id;
@@ -53,6 +54,14 @@ public class OrderRequest {
 
 	public void setWithMilk(boolean withMilk) {
 		this.withMilk = withMilk;
+	}
+
+	public String getDelivery() {
+		return delivery;
+	}
+
+	public void setDelivery(String delivery) {
+		this.delivery = delivery;
 	}
 
 	public double getPrice() {

@@ -22,6 +22,7 @@ public class OrderingApplication {
 				registry.addMapping("/api/v1/options/size").allowedOrigins("http://localhost:1222");
 				registry.addMapping("/api/v1/options/coffee").allowedOrigins("http://localhost:1222");
 				registry.addMapping("/api/v1/options/milk").allowedOrigins("http://localhost:1222");
+				registry.addMapping("/api/v1/options/pickUp").allowedOrigins("http://localhost:1222");
 
 			}
 		};

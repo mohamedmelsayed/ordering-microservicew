@@ -32,20 +32,23 @@ public class Orders {
 	private CoffeType coffeeType = CoffeType.LongBlack;
 	
 	
-	
+
+	private DeliveryType delivery = DeliveryType.OnSite;
 
 	public Orders() {
 		super();
 	}
 
 	public Orders(long id, String status, String size, String milkType, boolean withMilk, double price,
-			String coffeeType) {
+			String coffeeType,String delivery) {
 		super();
 		this.id = id;
 		
 		this.status =status!=null? Status.valueOf(status):Status.Pending;
 		this.size = size!=null?Size.valueOf(size):null;
 		this.milkType =milkType!=null? MilkType.valueOf(milkType):null;
+		this.delivery =delivery!=null? DeliveryType.valueOf(delivery):null;
+
 		this.withMilk = withMilk;
 		this.price = price;
 		this.coffeeType =coffeeType!=null? CoffeType.valueOf(coffeeType):CoffeType.LongBlack;
@@ -93,6 +96,16 @@ public class Orders {
 
 	public double getPrice() {
 		return price;
+	}
+	
+	
+
+	public DeliveryType getDelivery() {
+		return delivery;
+	}
+
+	public void setDelivery(DeliveryType delivery) {
+		this.delivery = delivery;
 	}
 
 	public void setPrice(double price) {

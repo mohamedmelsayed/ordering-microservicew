@@ -1,6 +1,5 @@
 package com.profdev.ordering.controllers;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,7 +9,6 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -18,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
 
 import com.profdev.ordering.models.CoffeType;
+import com.profdev.ordering.models.DeliveryType;
 import com.profdev.ordering.models.MilkType;
 import com.profdev.ordering.models.OrderProcessing;
 import com.profdev.ordering.models.Orders;
@@ -41,10 +40,10 @@ public class OrderController {
 	@PostMapping
 	public Orders insert(@RequestBody OrderRequest order) {
 		Orders orderToSave = new Orders(order.getId(), order.getStatus(), order.getSize(), order.getMilkType(),
-				order.getWithMilk(), order.getPrice(), order.getCoffeeType());
+				order.getWithMilk(), order.getPrice(), order.getCoffeeType(),order.getDelivery());
 		System.out.println(order.toString());
 		Orders saved = orderingRepo.save(orderToSave);
-		if (saved != null&&saved.getStatus().equals(Status.Completed)) {
+		if (saved != null) {
 			OrderProcessing processing = new OrderProcessing();
 			processing.setOrderId(saved.getId());
 			processing.setStatus(States.Waiting);
@@ -67,15 +66,20 @@ public class OrderController {
 	public Orders update(@RequestBody OrderRequest orderRequest, @PathVariable long orderId) {
 		System.out.println(orderId);
 		Orders order = orderingRepo.findById(orderId).get();
+		Status old=order.getStatus();
 		if (order != null) {
-			order.setStatus(Status.valueOf(orderRequest.getStatus()));
-			order.setSize(Size.valueOf(orderRequest.getSize()));
-			order.setMilkType(MilkType.valueOf(orderRequest.getMilkType()));
-			order.setCoffeeType(CoffeType.valueOf(orderRequest.getCoffeeType()));
-			order.setPrice(orderRequest.getPrice());
+			order.setStatus(orderRequest.getStatus()!=null?Status.valueOf(orderRequest.getStatus()):order.getStatus());
+			order.setSize(orderRequest.getSize()!=null?Size.valueOf(orderRequest.getSize()):order.getSize());
+			order.setMilkType(orderRequest.getMilkType()!=null?MilkType.valueOf(orderRequest.getMilkType()):order.getMilkType());
+			order.setCoffeeType(orderRequest.getCoffeeType()!=null?CoffeType.valueOf(orderRequest.getCoffeeType()):order.getCoffeeType());
+			order.setPrice(orderRequest.getPrice()!=0?orderRequest.getPrice():order.getPrice());
+			
+			order.setDelivery(orderRequest.getDelivery()!=null?DeliveryType.valueOf(orderRequest.getDelivery()):order.getDelivery());
+
+			}
 			return orderingRepo.save(order);
-		}
-		return null;
+		
+		
 	}
 
 	@DeleteMapping("/{orderId}")
